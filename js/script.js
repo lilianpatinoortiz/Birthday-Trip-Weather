@@ -14,6 +14,7 @@ var cacheDiv = document.querySelector("#cache-data");
 var cityHistory = [];
 var today = dayjs();
 var cacheDataArray = [];
+var APIKey = "652f4dc3d5f0f3f97a539615c24f47e3";
 
 function printResults(resultObj) {
   console.log(resultObj);
@@ -24,11 +25,32 @@ function showResultsUI() {
   futureResults.classList.remove("hidden");
 }
 
-function searchApi(query) {
-  var locQueryUrl = "https://www.loc.gov/search/?fo=json";
-  locQueryUrl = locQueryUrl + "&q=" + query;
+// update the local storage
+function saveCity(cityObj) {
+  // check if the city exists in local storage array
+  function isKeyInArray(key, array) {
+    return array.findIndex((obj) => key == obj.name);
+  }
 
-  fetch(locQueryUrl)
+  var cityIndexInArray = isKeyInArray(cityObj.name, cacheDataArray);
+  if (cityIndexInArray >= 0) {
+    // city needs to updated
+    cacheDataArray[cityIndexInArray] = cityObj;
+  } else {
+    // city needs to be created
+    cacheDataArray.push(cityObj);
+  }
+  localStorage.setItem("data", JSON.stringify(cacheDataArray)); // convert the json to string to save it in local storage
+}
+
+function searchApi(city) {
+  var queryURL =
+    "http://api.openweathermap.org/data/2.5/weather?q=" +
+    city +
+    "&appid=" +
+    APIKey;
+
+  fetch(queryURL)
     .then(function (response) {
       if (!response.ok) {
         throw response.json();
@@ -37,56 +59,39 @@ function searchApi(query) {
     })
     .then(function (data) {
       console.log(data);
-      if (!data.results.length) {
-        console.log("No results found!");
-      } else {
-        for (var i = 0; i < data.results.length; i++) {
-          printResults(data.results[i]);
-        }
-      }
+      var cityInfo = data;
+      var cityObj = {
+        name: city,
+        today: {
+          temp: cityInfo.main.temp,
+          wind: cityInfo.wind.speed,
+          humidity: cityInfo.main.humidity,
+        },
+        future: {},
+      };
+
       // show the data in the ui
       showResultsUI();
+      saveCity(cityObj);
     })
     .catch(function (error) {
       console.error(error);
     });
 }
 
-// update the local storage
-function saveCity(city) {
-  // check if the city exists in local storage array
-  function isKeyInArray(key, array) {
-    return array.findIndex((obj) => key == obj.name);
-  }
-
-  var cityWeather = { name: city, today: [], future: [] };
-  // check if key exists
-  var cityIndexInArray = isKeyInArray(city, cacheDataArray);
-  if (cityIndexInArray >= 0) {
-    // city needs to updated
-    cacheDataArray[cityIndexInArray].today = "Updated data";
-  } else {
-    // city needs to be created
-    cacheDataArray.push(cityWeather);
-  }
-  localStorage.setItem("data", JSON.stringify(cacheDataArray)); // convert the json to string to save it in local storage
-}
-
 function searchClicked(event) {
   event.preventDefault();
 
-  var searchInputVal = document.querySelector("#search-input").value;
+  var city = document.querySelector("#search-input").value;
 
-  if (!searchInputVal) {
+  if (!city) {
     alert("You need a search input value!");
     return;
   }
-  // if city is not in chache, add it
-  saveCity(searchInputVal);
-  searchApi(searchInputVal);
+  searchApi(city);
 
   cityName.textContent =
-    searchInputVal + " ( " + today.format("dddd  MMMM D, YYYY") + " ) ";
+    city + " ( " + today.format("dddd  MMMM D, YYYY") + " ) ";
 }
 
 searchFormEl.addEventListener("submit", searchClicked);
@@ -97,7 +102,6 @@ function displayCacheDataCities(data) {
     buttonElement.textContent = city.name;
     buttonElement.setAttribute("id", city.name);
     buttonElement.className = "btn btn-secondary btn-block";
-    // assign id as city name
     cacheDiv.append(buttonElement);
   });
 }
