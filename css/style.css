@@ -1,0 +1,69 @@
+body {
+  font-family: "Fira Sans", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h6 {
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+}
+
+h4 {
+  font-size: 1rem;
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.bg-light {
+  background-color: #57779a !important;
+}
+
+#todays-results {
+  border: dotted 1px white;
+  border-radius: 10px;
+  margin: 10px;
+  box-shadow: 10px 10px 15px 1px #ffffff42;
+}
+
+.today {
+  padding: 10px;
+}
+.future {
+  padding: 5px;
+}
+
+.text-secondary {
+  color: #2d3e50;
+}
+
+.btn-secondary {
+  background-color: #3a6a80;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.future-results {
+  height: 150px;
+  width: 150px;
+  border: dotted 1px white;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.btn.btn-primary:hover {
+  background-color: #065b83;
+}

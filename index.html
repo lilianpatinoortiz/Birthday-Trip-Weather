@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birthday Trip Weather</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400&family=Merriweather:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/jass.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+
+  <body>
+    <div
+      class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md bg-primary text-light"
+      style="
+        min-height: 5vh;
+        align-content: center;
+        justify-content: center;
+        background-color: #07202c !important;
+      "
+    >
+      30th Birthday Trip City
+    </div>
+    <div
+      class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md min-100-vh bg-primary"
+    >
+      <div class="col-12 col-md-3 bg-light p-3">
+        <hr />
+        <br />
+        <h2 class="text-secondary">I want to fly from:</h2>
+        <form id="search-form" class="mb-2">
+          <input
+            id="search-input"
+            class="form-input w-100"
+            type="text"
+            placeholder="Type your city"
+          />
+          <button class="btn btn-primary btn-block">Search</button>
+        </form>
+        <br />
+        <hr />
+        <br />
+        <div id="cache-data"></div>
+      </div>
+
+      <div class="col-12 col-md-9 p-3 text-light">
+        <div class="today">
+          Hi my friend! I am providing you this site to facilitate you the plane
+          booking to my birthday trip. Check the weather of your city before
+          booking, there will only be flights on the days with good weather. My
+          birthday is in 5 days - be on time... See you soon!
+        </div>
+
+        <div id="todays-results" class="hidden">
+          <div id="city-name" class="today">Try searching for a city...</div>
+          <div id="city-details">
+            <div id="city-temp" class="today">
+              Temperature:
+              <p class="bold"></p>
+            </div>
+            <div id="city-wind" class="today">
+              Wind:
+              <p class="bold"></p>
+            </div>
+            <div id="city-humidity" class="today">
+              Humidity:
+              <p class="bold"></p>
+            </div>
+          </div>
+        </div>
+        <br />
+        <br />
+        <hr />
+        <br />
+        <br />
+        <div id="future-results" class="hidden">
+          <h6>5-Day Forecast:</h6>
+          <div class="flex-container">
+            <div class="future-results">
+              <div id="city-date" class="future">
+                <p class="bold"></p>
+              </div>
+              <div id="city-temp" class="future">
+                Temperature:
+                <p class="bold"></p>
+              </div>
+              <div id="city-wind" class="future">
+                Wind:
+                <p class="bold"></p>
+              </div>
+              <div id="city-humidity" class="future">
+                Humidity:
+                <p class="bold"></p>
+              </div>
+            </div>
+            <div class="future-results">
+              <div id="city-date" class="future">
+                <p class="bold"></p>
+              </div>
+              <div id="city-temp" class="future">
+                Temperature:
+                <p class="bold"></p>
+              </div>
+              <div id="city-wind" class="future">
+                Wind:
+                <p class="bold"></p>
+              </div>
+              <div id="city-humidity" class="future">
+                Humidity:
+                <p class="bold"></p>
+              </div>
+            </div>
+            <div class="future-results">
+              <div id="city-date" class="future">
+                <p class="bold"></p>
+              </div>
+              <div id="city-temp" class="future">
+                Temperature:
+                <p class="bold"></p>
+              </div>
+              <div id="city-wind" class="future">
+                Wind:
+                <p class="bold"></p>
+              </div>
+              <div id="city-humidity" class="future">
+                Humidity:
+                <p class="bold"></p>
+              </div>
+            </div>
+            <div class="future-results">
+              <div id="city-date" class="future">
+                <p class="bold"></p>
+              </div>
+              <div id="city-temp" class="future">
+                Temperature:
+                <p class="bold"></p>
+              </div>
+              <div id="city-wind" class="future">
+                Wind:
+                <p class="bold"></p>
+              </div>
+              <div id="city-humidity" class="future">
+                Humidity:
+                <p class="bold"></p>
+              </div>
+            </div>
+            <div class="future-results">
+              <div id="city-date" class="future">
+                <p class="bold"></p>
+              </div>
+              <div id="city-temp" class="future">
+                Temperature:
+                <p class="bold"></p>
+              </div>
+              <div id="city-wind" class="future">
+                Wind:
+                <p class="bold"></p>
+              </div>
+              <div id="city-humidity" class="future">
+                Humidity:
+                <p class="bold"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+      integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
+      crossorigin="anonymous"
+    ></script>
+    <script src="./js/script.js"></script>
+  </body>
+</html>
