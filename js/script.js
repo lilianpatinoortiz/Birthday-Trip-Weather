@@ -22,6 +22,10 @@ function showResultsUI(cityObj) {
   futureResults.classList.remove("hidden");
   console.log("Ready to display:");
   console.log(cityObj);
+  cityName.textContent = cityObj.name + " ( " + cityObj.today.date + " ) ";
+  cityTemp.textContent = "Temperature: " + cityObj.today.temp + " °F";
+  cityWind.textContent = "Wind: " + cityObj.today.wind + " MPH";
+  cityHumidity.textContent = "Humidity: " + cityObj.today.humidity + "%";
 }
 
 function doesCityAlreadyExists(city) {
@@ -101,7 +105,6 @@ function searchClicked(event) {
     console.log("Ready to search new city...");
     searchApi(city);
   }
-  cityName.textContent = city + " ( " + todaysDate + " ) ";
 }
 
 searchFormEl.addEventListener("submit", searchClicked);
