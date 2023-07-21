@@ -1,4 +1,5 @@
 //display-search.js
+let APIKey = "652f4dc3d5f0f3f97a539615c24f47e3";
 
 var resultTextEl = document.querySelector("#result-text");
 var resultContentEl = document.querySelector("#result-content");
@@ -13,31 +14,32 @@ var futureResults = document.querySelector("#future-results");
 var cacheDiv = document.querySelector("#cache-data");
 var cityHistory = [];
 var today = dayjs();
+var todaysDate = today.format("dddd  MMMM D, YYYY");
 var cacheDataArray = [];
-var APIKey = "652f4dc3d5f0f3f97a539615c24f47e3";
 
-function printResults(resultObj) {
-  console.log(resultObj);
-}
-
-function showResultsUI() {
+function showResultsUI(cityObj) {
   todaysResults.classList.remove("hidden");
   futureResults.classList.remove("hidden");
+  console.log("Ready to display:");
+  console.log(cityObj);
 }
 
-// update the local storage
-function saveCity(cityObj) {
+function doesCityAlreadyExists(city) {
   // check if the city exists in local storage array
-  function isKeyInArray(key, array) {
-    return array.findIndex((obj) => key == obj.name);
+  function isKeyInArray(city, array) {
+    return array.findIndex((obj) => city == obj.name);
   }
+  var cityIndexInArray = isKeyInArray(city, cacheDataArray);
+  return cityIndexInArray;
+}
 
-  var cityIndexInArray = isKeyInArray(cityObj.name, cacheDataArray);
+function saveCity(cityObj) {
+  var cityIndexInArray = doesCityAlreadyExists(cityObj.name);
   if (cityIndexInArray >= 0) {
-    // city needs to updated
+    // update data for the city
     cacheDataArray[cityIndexInArray] = cityObj;
   } else {
-    // city needs to be created
+    // add the new city
     cacheDataArray.push(cityObj);
   }
   localStorage.setItem("data", JSON.stringify(cacheDataArray)); // convert the json to string to save it in local storage
@@ -63,16 +65,15 @@ function searchApi(city) {
       var cityObj = {
         name: city,
         today: {
+          date: todaysDate,
           temp: cityInfo.main.temp,
           wind: cityInfo.wind.speed,
           humidity: cityInfo.main.humidity,
         },
         future: {},
       };
-
-      // show the data in the ui
-      showResultsUI();
       saveCity(cityObj);
+      showResultsUI(cityObj);
     })
     .catch(function (error) {
       console.error(error);
@@ -81,17 +82,26 @@ function searchApi(city) {
 
 function searchClicked(event) {
   event.preventDefault();
-
   var city = document.querySelector("#search-input").value;
-
   if (!city) {
     alert("You need a search input value!");
     return;
   }
-  searchApi(city);
 
-  cityName.textContent =
-    city + " ( " + today.format("dddd  MMMM D, YYYY") + " ) ";
+  var cityIndexInArray = doesCityAlreadyExists(city);
+  if (cityIndexInArray >= 0) {
+    if (cacheDataArray[cityIndexInArray].today.date === todaysDate) {
+      console.log("Ready to display data from cache...");
+      showResultsUI(cacheDataArray[cityIndexInArray]);
+    } else {
+      console.log("Ready to search new city because the date changed...");
+      searchApi(city);
+    }
+  } else {
+    console.log("Ready to search new city...");
+    searchApi(city);
+  }
+  cityName.textContent = city + " ( " + todaysDate + " ) ";
 }
 
 searchFormEl.addEventListener("submit", searchClicked);
