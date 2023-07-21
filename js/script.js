@@ -20,12 +20,12 @@ var cacheDataArray = [];
 function showResultsUI(cityObj) {
   todaysResults.classList.remove("hidden");
   futureResults.classList.remove("hidden");
-  console.log("Ready to display:");
+  console.log("Ready to display in the interface:");
   console.log(cityObj);
   cityName.textContent = cityObj.name + " ( " + cityObj.today.date + " ) ";
-  cityTemp.textContent = "Temperature: " + cityObj.today.temp + " °F";
-  cityWind.textContent = "Wind: " + cityObj.today.wind + " MPH";
-  cityHumidity.textContent = "Humidity: " + cityObj.today.humidity + "%";
+  cityTemp.textContent = " ★ Temperature: " + cityObj.today.temp + " °F";
+  cityWind.textContent = " ★ Wind: " + cityObj.today.wind + " MPH";
+  cityHumidity.textContent = " ★ Humidity: " + cityObj.today.humidity + "%";
 }
 
 function doesCityAlreadyExists(city) {
@@ -49,14 +49,16 @@ function saveCity(cityObj) {
   localStorage.setItem("data", JSON.stringify(cacheDataArray)); // convert the json to string to save it in local storage
 }
 
-function searchApi(city) {
-  var queryURL =
+function callApis(city) {
+  // We first call todays api
+  var todaysURL =
     "http://api.openweathermap.org/data/2.5/weather?q=" +
     city +
     "&appid=" +
-    APIKey;
+    APIKey +
+    "&units=imperial";
 
-  fetch(queryURL)
+  fetch(todaysURL)
     .then(function (response) {
       if (!response.ok) {
         throw response.json();
@@ -74,10 +76,43 @@ function searchApi(city) {
           wind: cityInfo.wind.speed,
           humidity: cityInfo.main.humidity,
         },
-        future: {},
+        future: [],
       };
-      saveCity(cityObj);
-      showResultsUI(cityObj);
+      // We secondly call the forecast api
+      var forecastURL =
+        "http://api.openweathermap.org/data/2.5/forecast?lat=" +
+        cityInfo.coord.lat +
+        "&lon=" +
+        cityInfo.coord.lon +
+        "&appid=" +
+        APIKey +
+        "&units=imperial";
+      fetch(forecastURL)
+        .then(function (response) {
+          if (!response.ok) {
+            throw response.json();
+          }
+          return response.json();
+        })
+        .then(function (data) {
+          cityObj.future = [];
+          futureDays = data.list;
+          for (var x = 0; x < futureDays.length; x++) {
+            var forecastDay = {
+              date: futureDays[x].dt_txt,
+              temp: futureDays[x].main.temp,
+              wind: futureDays[x].wind.speed,
+              humidity: futureDays[x].main.humidity,
+            };
+            cityObj.future.push(forecastDay);
+            x += 8;
+          }
+          saveCity(cityObj);
+          showResultsUI(cityObj);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
     })
     .catch(function (error) {
       console.error(error);
@@ -99,11 +134,11 @@ function searchClicked(event) {
       showResultsUI(cacheDataArray[cityIndexInArray]);
     } else {
       console.log("Ready to search new city because the date changed...");
-      searchApi(city);
+      callApis(city);
     }
   } else {
     console.log("Ready to search new city...");
-    searchApi(city);
+    callApis(city);
   }
 }
 
