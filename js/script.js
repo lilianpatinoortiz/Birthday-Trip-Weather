@@ -17,8 +17,12 @@ var today = dayjs();
 var todaysDate = today.format("dddd  MMMM D, YYYY");
 var cacheDataArray = [];
 
+// assign the background image based on the weather
 function weatherBgImage(weather, id) {
   var element = id == "today" ? todaysResults : document.querySelector(id);
+  element.classList.remove("sunny");
+  element.classList.remove("cloudy");
+  element.classList.remove("rainy");
   switch (weather) {
     case "Clear":
       element.classList.add("sunny");
@@ -31,11 +35,11 @@ function weatherBgImage(weather, id) {
       break;
   }
 }
+
+// dispplay the data in the ui
 function showResultsUI(cityObj) {
   todaysResults.classList.remove("hidden");
   futureResults.classList.remove("hidden");
-  console.log("Ready to display in the interface:");
-  console.log(cityObj);
   cityName.textContent = cityObj.name + " ( " + cityObj.today.date + " ) ";
   cityTemp.textContent = " ★ Temperature: " + cityObj.today.temp + " °F";
   cityWind.textContent = " ★ Wind: " + cityObj.today.wind + " MPH";
@@ -53,10 +57,12 @@ function showResultsUI(cityObj) {
       "Humidity: " + element.humidity + " %";
     weatherBgImage(element.weather, "#f-" + i + "-c");
   });
+
+  getCacheData();
 }
 
+// check if the city exists in local storage array
 function doesCityAlreadyExists(city) {
-  // check if the city exists in local storage array
   function isKeyInArray(city, array) {
     return array.findIndex((obj) => city == obj.name);
   }
@@ -64,6 +70,7 @@ function doesCityAlreadyExists(city) {
   return cityIndexInArray;
 }
 
+// save the city in local storage
 function saveCity(cityObj) {
   var cityIndexInArray = doesCityAlreadyExists(cityObj.name);
   if (cityIndexInArray >= 0) {
@@ -76,6 +83,7 @@ function saveCity(cityObj) {
   localStorage.setItem("data", JSON.stringify(cacheDataArray)); // convert the json to string to save it in local storage
 }
 
+// make the api calls to retrieve the data
 function callApis(city) {
   // We first call todays api
   var todaysURL =
@@ -93,7 +101,6 @@ function callApis(city) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       var cityInfo = data;
       var cityObj = {
         name: city,
@@ -148,6 +155,7 @@ function callApis(city) {
     });
 }
 
+// the search button was clicked
 function searchClicked(event) {
   event.preventDefault();
   var city = document.querySelector("#search-input").value;
@@ -171,18 +179,40 @@ function searchClicked(event) {
   }
 }
 
+function searchCacheClicked(event) {
+  event.preventDefault();
+  var city = event.target.innerText;
+  var cityIndexInArray = doesCityAlreadyExists(city);
+  if (cityIndexInArray >= 0) {
+    if (cacheDataArray[cityIndexInArray].today.date === todaysDate) {
+      console.log("Ready to display data from cache...");
+      showResultsUI(cacheDataArray[cityIndexInArray]);
+    } else {
+      console.log("Ready to search new city because the date changed...");
+      callApis(city);
+    }
+  } else {
+    console.log("Ready to search new city...");
+    callApis(city);
+  }
+}
+
+// enable the submit action to the search button
 searchFormEl.addEventListener("submit", searchClicked);
 
 function displayCacheDataCities(data) {
+  cacheDiv.innerHTML = ""; // clear cache buttons first to recreate
   data.forEach((city) => {
     var buttonElement = document.createElement("button");
     buttonElement.textContent = city.name;
     buttonElement.setAttribute("id", city.name);
     buttonElement.className = "btn btn-secondary btn-block";
+    buttonElement.addEventListener("click", searchCacheClicked);
     cacheDiv.append(buttonElement);
   });
 }
 
+// get cache data from local storage
 function getCacheData() {
   var data = JSON.parse(localStorage.getItem("data")); // convert the string to json to use it
   if (data) {
