@@ -33,8 +33,8 @@ TBD
 
 ![Initial search](img/ss1.png)
 ![Second search](img/ss2.png)
-![Data preloaded](img/ss4.png)
-![Responsive](img/ss5.png)
+![Data preloaded](img/ss3.png)
+![Responsive](img/ss4.png)
 
 ## Credits
 
