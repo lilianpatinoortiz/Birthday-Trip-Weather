@@ -26,9 +26,27 @@ h4 {
 #todays-results {
   border: dotted 1px white;
   border-radius: 10px;
-  margin: 10px;
   box-shadow: 10px 10px 15px 1px #ffffff42;
   padding: 20px;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  background: rgb(0 0 0 / 26%);
+  color: white;
+}
+
+#todays-results-container {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #13293d;
+  color: white;
+  border: dotted 1px white;
+  border-radius: 10px;
+  margin: 10px;
 }
 
 .today {
@@ -54,16 +72,18 @@ h4 {
 
 .flex-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
 }
+
 .future-results {
   border: dotted 1px white;
   border-radius: 10px;
   padding: 10px;
   min-height: 250px;
   width: auto;
-  margin-bottom: 20px;
+  background: rgb(0 0 0 / 26%);
+  color: white;
 
   > div > p {
     font-size: 1rem;
@@ -75,6 +95,31 @@ h4 {
   }
 }
 
+.future-results-container {
+  margin-bottom: 20px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #13293d;
+  color: white;
+  border: dotted 1px white;
+  border-radius: 10px;
+  margin: 10px;
+}
+
 .btn.btn-primary:hover {
   background-color: #065b83;
+}
+
+.sunny {
+  background-image: url(../img/sunny.jpeg);
+}
+
+.cloudy {
+  background-image: url(../img/cloudy.jpeg);
+}
+
+.rainy {
+  background-image: url(../img/rainy.jpeg);
 }

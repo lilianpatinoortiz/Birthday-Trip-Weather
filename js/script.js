@@ -9,7 +9,7 @@ var cityTemp = document.querySelector("#city-temp");
 var cityWind = document.querySelector("#city-wind");
 var cityHumidity = document.querySelector("#city-humidity");
 var cityDetails = document.querySelector("#city-details");
-var todaysResults = document.querySelector("#todays-results");
+var todaysResults = document.querySelector("#todays-results-container");
 var futureResults = document.querySelector("#future-results");
 var cacheDiv = document.querySelector("#cache-data");
 var cityHistory = [];
@@ -17,6 +17,20 @@ var today = dayjs();
 var todaysDate = today.format("dddd  MMMM D, YYYY");
 var cacheDataArray = [];
 
+function weatherBgImage(weather, id) {
+  var element = id == "today" ? todaysResults : document.querySelector(id);
+  switch (weather) {
+    case "Clear":
+      element.classList.add("sunny");
+      break;
+    case "Clouds":
+      element.classList.add("cloudy");
+      break;
+    case "Rain":
+      element.classList.add("rainy");
+      break;
+  }
+}
 function showResultsUI(cityObj) {
   todaysResults.classList.remove("hidden");
   futureResults.classList.remove("hidden");
@@ -26,12 +40,9 @@ function showResultsUI(cityObj) {
   cityTemp.textContent = " ★ Temperature: " + cityObj.today.temp + " °F";
   cityWind.textContent = " ★ Wind: " + cityObj.today.wind + " MPH";
   cityHumidity.textContent = " ★ Humidity: " + cityObj.today.humidity + "%";
-
+  weatherBgImage(cityObj.today.weather, "today");
   cityObj.future.forEach((element, i) => {
-    console.log("#f-" + i);
-    console.log(element);
     var boxElement = document.querySelector("#f-" + i);
-    console.log(boxElement);
     boxElement.querySelector(".city-date").textContent =
       element.date.split(" ")[0];
     boxElement.querySelector(".city-temp").textContent =
@@ -40,6 +51,7 @@ function showResultsUI(cityObj) {
       "Wind: " + element.wind + " MPH";
     boxElement.querySelector(".city-humidity").textContent =
       "Humidity: " + element.humidity + " %";
+    weatherBgImage(element.weather, "#f-" + i + "-c");
   });
 }
 
@@ -90,6 +102,7 @@ function callApis(city) {
           temp: cityInfo.main.temp,
           wind: cityInfo.wind.speed,
           humidity: cityInfo.main.humidity,
+          weather: cityInfo.weather[0].main,
         },
         future: [],
       };
@@ -118,6 +131,7 @@ function callApis(city) {
               temp: futureDays[x].main.temp,
               wind: futureDays[x].wind.speed,
               humidity: futureDays[x].main.humidity,
+              weather: futureDays[x].weather[0].main,
             };
             cityObj.future.push(forecastDay);
             x += 8; // fix this
