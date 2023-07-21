@@ -20,7 +20,11 @@ h4 {
 }
 
 .bg-light {
-  background-color: #57779a !important;
+  background-color: #2282af !important;
+}
+
+.bg-primary {
+  background-color: #1a1a1a !important;
 }
 
 #todays-results {
@@ -57,11 +61,14 @@ h4 {
 }
 
 .text-secondary {
-  color: #2d3e50;
+  color: #000000;
 }
 
+.btn-primary {
+  background-color: #000000;
+}
 .btn-secondary {
-  background-color: #3a6a80;
+  background-color: rgb(0 0 0 / 26%);
   margin-bottom: 10px;
   color: white;
 }
