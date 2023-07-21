@@ -130,3 +130,11 @@ h4 {
 .rainy {
   background-image: url(../img/rainy.jpeg);
 }
+
+.title {
+  min-height: 8vh;
+  align-content: center;
+  justify-content: center;
+  background-color: #07202c !important;
+  font-size: 30px;
+}
