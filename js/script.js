@@ -36,7 +36,7 @@ function weatherBgImage(weather, id) {
   }
 }
 
-// dispplay the data in the ui
+// display the data in the ui
 function showResultsUI(cityObj) {
   todaysResults.classList.remove("hidden");
   futureResults.classList.remove("hidden");
@@ -147,11 +147,11 @@ function callApis(city) {
           showResultsUI(cityObj);
         })
         .catch(function (error) {
-          console.error(error);
+          ack("❌ Unable to get ypur city");
         });
     })
     .catch(function (error) {
-      console.error(error);
+      ack("❌ Unable to get ypur city");
     });
 }
 
@@ -167,32 +167,33 @@ function searchClicked(event) {
   var cityIndexInArray = doesCityAlreadyExists(city);
   if (cityIndexInArray >= 0) {
     if (cacheDataArray[cityIndexInArray].today.date === todaysDate) {
-      console.log("Ready to display data from cache...");
+      ack("✅  Data preloaded");
       showResultsUI(cacheDataArray[cityIndexInArray]);
     } else {
-      console.log("Ready to search new city because the date changed...");
+      ack("🔎 Searching for your city in this new date");
       callApis(city);
     }
   } else {
-    console.log("Ready to search new city...");
+    ack("🔎 Searching for your city...");
     callApis(city);
   }
 }
 
+// the cache city was clicked
 function searchCacheClicked(event) {
   event.preventDefault();
   var city = event.target.innerText;
   var cityIndexInArray = doesCityAlreadyExists(city);
   if (cityIndexInArray >= 0) {
     if (cacheDataArray[cityIndexInArray].today.date === todaysDate) {
-      console.log("Ready to display data from cache...");
+      ack("✅  Data preloaded");
       showResultsUI(cacheDataArray[cityIndexInArray]);
     } else {
-      console.log("Ready to search new city because the date changed...");
+      ack("🔎 Searching for your city in this new date");
       callApis(city);
     }
   } else {
-    console.log("Ready to search new city...");
+    ack("🔎 Searching for your city...");
     callApis(city);
   }
 }
@@ -221,6 +222,17 @@ function getCacheData() {
   } else {
     localStorage.setItem("data", JSON.stringify(cacheDataArray));
   }
+}
+
+// show notification
+function ack(text) {
+  var notification = document.getElementById("ack");
+  var notificationText = document.getElementById("ack-text");
+  notificationText.textContent = text;
+  notification.style.display = "block"; // display notification
+  setTimeout(function () {
+    notification.style.display = "none"; // hide notiification
+  }, 1000);
 }
 
 getCacheData();

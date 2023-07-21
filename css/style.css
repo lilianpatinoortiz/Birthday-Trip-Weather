@@ -138,3 +138,22 @@ h4 {
   background-color: #07202c !important;
   font-size: 30px;
 }
+
+/* The following css was gotten from: https://stackoverflow.com/questions/48305623/how-do-i-make-a-notification-disappear */
+.notification {
+  transition: all 0.35s;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: linear-gradient(#000000, #0000007a);
+  border-bottom: 0.125rem solid #1a1a1a;
+  box-shadow: rgba(0, 0, 0, 0.4) 0 0.25rem 0.25rem 0;
+  display: none;
+}
+
+.notification .content {
+  text-align: center;
+  color: #fff;
+  padding-top: 15px;
+}
