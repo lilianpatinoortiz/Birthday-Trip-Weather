@@ -20,29 +20,55 @@ h4 {
 }
 
 .bg-light {
-  background-color: #57779a !important;
+  background-color: #2282af !important;
+}
+
+.bg-primary {
+  background-color: #1a1a1a !important;
 }
 
 #todays-results {
   border: dotted 1px white;
   border-radius: 10px;
-  margin: 10px;
   box-shadow: 10px 10px 15px 1px #ffffff42;
+  padding: 20px;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  background: rgb(0 0 0 / 26%);
+  color: white;
+}
+
+#todays-results-container {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #13293d;
+  color: white;
+  border: dotted 1px white;
+  border-radius: 10px;
+  margin: 10px;
 }
 
 .today {
-  padding: 10px;
+  padding: 5px;
 }
 .future {
   padding: 5px;
 }
 
 .text-secondary {
-  color: #2d3e50;
+  color: #000000;
 }
 
+.btn-primary {
+  background-color: #000000;
+}
 .btn-secondary {
-  background-color: #3a6a80;
+  background-color: rgb(0 0 0 / 26%);
   margin-bottom: 10px;
   color: white;
 }
@@ -53,12 +79,37 @@ h4 {
 
 .flex-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
 }
+
 .future-results {
-  height: 150px;
-  width: 150px;
+  border: dotted 1px white;
+  border-radius: 10px;
+  padding: 10px;
+  min-height: 250px;
+  width: auto;
+  background: rgb(0 0 0 / 26%);
+  color: white;
+
+  > div > p {
+    font-size: 1rem;
+  }
+
+  .city-date {
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
+}
+
+.future-results-container {
+  margin-bottom: 20px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #13293d;
+  color: white;
   border: dotted 1px white;
   border-radius: 10px;
   margin: 10px;
@@ -66,4 +117,43 @@ h4 {
 
 .btn.btn-primary:hover {
   background-color: #065b83;
+}
+
+.sunny {
+  background-image: url(../img/sunny.jpeg);
+}
+
+.cloudy {
+  background-image: url(../img/cloudy.jpeg);
+}
+
+.rainy {
+  background-image: url(../img/rainy.jpeg);
+}
+
+.title {
+  min-height: 8vh;
+  align-content: center;
+  justify-content: center;
+  background-color: #07202c !important;
+  font-size: 30px;
+}
+
+/* The following css was gotten from: https://stackoverflow.com/questions/48305623/how-do-i-make-a-notification-disappear */
+.notification {
+  transition: all 0.35s;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: linear-gradient(#000000, #0000007a);
+  border-bottom: 0.125rem solid #1a1a1a;
+  box-shadow: rgba(0, 0, 0, 0.4) 0 0.25rem 0.25rem 0;
+  display: none;
+}
+
+.notification .content {
+  text-align: center;
+  color: #fff;
+  padding-top: 15px;
 }

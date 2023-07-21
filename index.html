@@ -13,22 +13,20 @@
   </head>
 
   <body>
+    <div id="ack" class="notification">
+      <div class="content">
+        <p id="ack-text"></p>
+      </div>
+    </div>
     <div
-      class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md bg-primary text-light"
-      style="
-        min-height: 5vh;
-        align-content: center;
-        justify-content: center;
-        background-color: #07202c !important;
-      "
+      class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md bg-primary text-light title"
     >
-      30th Birthday Trip City
+      30th Birthday Trip City 🥳
     </div>
     <div
       class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md min-100-vh bg-primary"
     >
       <div class="col-12 col-md-3 bg-light p-3">
-        <hr />
         <br />
         <h2 class="text-secondary">I want to fly from:</h2>
         <form id="search-form" class="mb-2">
@@ -43,7 +41,7 @@
         <br />
         <hr />
         <br />
-        <div id="cache-data"></div>
+        <form id="cache-data"></form>
       </div>
 
       <div class="col-12 col-md-9 p-3 text-light">
@@ -53,21 +51,20 @@
           booking, there will only be flights on the days with good weather. My
           birthday is in 5 days - be on time... See you soon!
         </div>
-
-        <div id="todays-results" class="hidden">
-          <div id="city-name" class="today">Try searching for a city...</div>
-          <div id="city-details">
-            <div id="city-temp" class="today">
-              Temperature:
-              <p class="bold"></p>
-            </div>
-            <div id="city-wind" class="today">
-              Wind:
-              <p class="bold"></p>
-            </div>
-            <div id="city-humidity" class="today">
-              Humidity:
-              <p class="bold"></p>
+        <br /><br />
+        <div id="todays-results-container" class="hidden">
+          <div id="todays-results">
+            <div class="today"><h3 id="city-name"></h3></div>
+            <div id="city-details">
+              <div class="today">
+                <p id="city-temp"></p>
+              </div>
+              <div class="today">
+                <p id="city-wind"></p>
+              </div>
+              <div class="today">
+                <p id="city-humidity"></p>
+              </div>
             </div>
           </div>
         </div>
@@ -79,89 +76,84 @@
         <div id="future-results" class="hidden">
           <h6>5-Day Forecast:</h6>
           <div class="flex-container">
-            <div class="future-results">
-              <div id="city-date" class="future">
-                <p class="bold"></p>
-              </div>
-              <div id="city-temp" class="future">
-                Temperature:
-                <p class="bold"></p>
-              </div>
-              <div id="city-wind" class="future">
-                Wind:
-                <p class="bold"></p>
-              </div>
-              <div id="city-humidity" class="future">
-                Humidity:
-                <p class="bold"></p>
-              </div>
-            </div>
-            <div class="future-results">
-              <div id="city-date" class="future">
-                <p class="bold"></p>
-              </div>
-              <div id="city-temp" class="future">
-                Temperature:
-                <p class="bold"></p>
-              </div>
-              <div id="city-wind" class="future">
-                Wind:
-                <p class="bold"></p>
-              </div>
-              <div id="city-humidity" class="future">
-                Humidity:
-                <p class="bold"></p>
+            <div class="future-results-container" id="f-0-c">
+              <div class="future-results" id="f-0">
+                <div class="future">
+                  <p class="city-date"></p>
+                </div>
+                <div>
+                  <p class="city-temp"></p>
+                </div>
+                <div>
+                  <p class="city-wind"></p>
+                </div>
+                <div>
+                  <p class="city-humidity"></p>
+                </div>
               </div>
             </div>
-            <div class="future-results">
-              <div id="city-date" class="future">
-                <p class="bold"></p>
-              </div>
-              <div id="city-temp" class="future">
-                Temperature:
-                <p class="bold"></p>
-              </div>
-              <div id="city-wind" class="future">
-                Wind:
-                <p class="bold"></p>
-              </div>
-              <div id="city-humidity" class="future">
-                Humidity:
-                <p class="bold"></p>
-              </div>
-            </div>
-            <div class="future-results">
-              <div id="city-date" class="future">
-                <p class="bold"></p>
-              </div>
-              <div id="city-temp" class="future">
-                Temperature:
-                <p class="bold"></p>
-              </div>
-              <div id="city-wind" class="future">
-                Wind:
-                <p class="bold"></p>
-              </div>
-              <div id="city-humidity" class="future">
-                Humidity:
-                <p class="bold"></p>
+            <div class="future-results-container" id="f-1-c">
+              <div class="future-results" id="f-1">
+                <div class="future">
+                  <p class="city-date"></p>
+                </div>
+                <div>
+                  <p class="city-temp"></p>
+                </div>
+                <div>
+                  <p class="city-wind"></p>
+                </div>
+                <div>
+                  <p class="city-humidity"></p>
+                </div>
               </div>
             </div>
-            <div class="future-results">
-              <div id="city-date" class="future">
-                <p class="bold"></p>
+            <div class="future-results-container" id="f-2-c">
+              <div class="future-results" id="f-2">
+                <div class="future">
+                  <p class="city-date"></p>
+                </div>
+                <div>
+                  <p class="city-temp"></p>
+                </div>
+                <div>
+                  <p class="city-wind"></p>
+                </div>
+                <div>
+                  <p class="city-humidity"></p>
+                </div>
               </div>
-              <div id="city-temp" class="future">
-                Temperature:
-                <p class="bold"></p>
+            </div>
+            <div class="future-results-container" id="f-3-c">
+              <div class="future-results" id="f-3">
+                <div class="future">
+                  <p class="city-date"></p>
+                </div>
+                <div>
+                  <p class="city-temp"></p>
+                </div>
+                <div>
+                  <p class="city-wind"></p>
+                </div>
+                <div>
+                  <p class="city-humidity"></p>
+                </div>
               </div>
-              <div id="city-wind" class="future">
-                Wind:
-                <p class="bold"></p>
-              </div>
-              <div id="city-humidity" class="future">
-                Humidity:
-                <p class="bold"></p>
+            </div>
+            <div class="future-results-container" id="f-4-c">
+              <div class="future-results" id="f-4">
+                <div class="future">
+                  <p class="city-date"></p>
+                </div>
+                <div>
+                  <p class="city-temp"></p>
+                </div>
+                <div>
+                  <p class="city-wind"></p>
+                </div>
+                <div>
+                  <p class="city-humidity"></p>
+                </div>
               </div>
             </div>
           </div>
