@@ -26,6 +26,21 @@ function showResultsUI(cityObj) {
   cityTemp.textContent = " ★ Temperature: " + cityObj.today.temp + " °F";
   cityWind.textContent = " ★ Wind: " + cityObj.today.wind + " MPH";
   cityHumidity.textContent = " ★ Humidity: " + cityObj.today.humidity + "%";
+
+  cityObj.future.forEach((element, i) => {
+    console.log("#f-" + i);
+    console.log(element);
+    var boxElement = document.querySelector("#f-" + i);
+    console.log(boxElement);
+    boxElement.querySelector(".city-date").textContent =
+      element.date.split(" ")[0];
+    boxElement.querySelector(".city-temp").textContent =
+      "Temperature: " + element.temp + " °F";
+    boxElement.querySelector(".city-wind").textContent =
+      "Wind: " + element.wind + " MPH";
+    boxElement.querySelector(".city-humidity").textContent =
+      "Humidity: " + element.humidity + " %";
+  });
 }
 
 function doesCityAlreadyExists(city) {
@@ -105,7 +120,7 @@ function callApis(city) {
               humidity: futureDays[x].main.humidity,
             };
             cityObj.future.push(forecastDay);
-            x += 8;
+            x += 8; // fix this
           }
           saveCity(cityObj);
           showResultsUI(cityObj);
