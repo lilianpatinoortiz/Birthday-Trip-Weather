@@ -31,10 +31,10 @@ Access the deployed project here: https://lilianpatinoortiz.github.io/Birthday-T
 
 TBD
 
-![Initial search](assets/img/ss1.png)
-![Second search](assets/img/ss2.png)
-![Data preloaded](assets/img/ss4.png)
-![Responsive](assets/img/ss5.png)
+![Initial search](img/ss1.png)
+![Second search](img/ss2.png)
+![Data preloaded](img/ss4.png)
+![Responsive](img/ss5.png)
 
 ## Credits
 
