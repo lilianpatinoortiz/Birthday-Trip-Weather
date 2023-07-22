@@ -1,6 +1,4 @@
 let APIKey = "652f4dc3d5f0f3f97a539615c24f47e3";
-let todaysURL = "https://api.openweathermap.org/data/2.5/weather?q=";
-let forecastURL = "https://api.openweathermap.org/data/2.5/forecast?lat=";
 
 var resultTextEl = document.querySelector("#result-text");
 var resultContentEl = document.querySelector("#result-content");
@@ -87,6 +85,7 @@ function saveCity(cityObj) {
 // make the api calls to retrieve the data
 function callApis(city) {
   // We first call todays api
+  let todaysURL = "https://api.openweathermap.org/data/2.5/weather?q=";
   todaysURL += city + "&appid=" + APIKey + "&units=imperial";
 
   fetch(todaysURL)
@@ -110,6 +109,7 @@ function callApis(city) {
         future: [],
       };
       // We secondly call the forecast api
+      let forecastURL = "https://api.openweathermap.org/data/2.5/forecast?lat=";
       forecastURL +=
         cityInfo.coord.lat +
         "&lon=" +
@@ -128,15 +128,19 @@ function callApis(city) {
           cityObj.future = [];
           futureDays = data.list;
           for (var x = 0; x < futureDays.length; x++) {
-            var forecastDay = {
-              date: futureDays[x].dt_txt,
-              temp: futureDays[x].main.temp,
-              wind: futureDays[x].wind.speed,
-              humidity: futureDays[x].main.humidity,
-              weather: futureDays[x].weather[0].main,
-            };
-            cityObj.future.push(forecastDay);
-            x += 8; // fix this
+            if (
+              futureDays[x].dt_txt.split(" ")[0] !== today.format("YYYY-MM-DD")
+            ) {
+              var forecastDay = {
+                date: futureDays[x].dt_txt,
+                temp: futureDays[x].main.temp,
+                wind: futureDays[x].wind.speed,
+                humidity: futureDays[x].main.humidity,
+                weather: futureDays[x].weather[0].main,
+              };
+              cityObj.future.push(forecastDay);
+              x += 8;
+            }
           }
           saveCity(cityObj);
           showResultsUI(cityObj);
