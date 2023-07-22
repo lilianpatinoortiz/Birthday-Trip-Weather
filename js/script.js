@@ -127,16 +127,22 @@ function callApis(city) {
         .then(function (data) {
           cityObj.future = [];
           futureDays = data.list;
+          console.log(today);
           for (var x = 0; x < futureDays.length; x++) {
-            var forecastDay = {
-              date: futureDays[x].dt_txt,
-              temp: futureDays[x].main.temp,
-              wind: futureDays[x].wind.speed,
-              humidity: futureDays[x].main.humidity,
-              weather: futureDays[x].weather[0].main,
-            };
-            cityObj.future.push(forecastDay);
-            x += 8; // fix this
+            console.log(futureDays[x]);
+            if (
+              futureDays[x].dt_txt.split(" ")[0] !== today.format("YYYY-MM-DD")
+            ) {
+              var forecastDay = {
+                date: futureDays[x].dt_txt,
+                temp: futureDays[x].main.temp,
+                wind: futureDays[x].wind.speed,
+                humidity: futureDays[x].main.humidity,
+                weather: futureDays[x].weather[0].main,
+              };
+              cityObj.future.push(forecastDay);
+              x += 8;
+            }
           }
           saveCity(cityObj);
           showResultsUI(cityObj);
